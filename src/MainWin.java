@@ -6,7 +6,7 @@ import javax.swing.*;
 public class MainWin extends JFrame {
 
     public MainWin() {
-        setTitle("Снэйки");
+        setTitle("Snake 1.0.1");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(340,365);
         setLocation(420,420);
@@ -14,8 +14,8 @@ public class MainWin extends JFrame {
         setVisible(true);
 
     }
-
     public static void main(String[] args) {
         MainWin mw = new MainWin();
     }
 }
+

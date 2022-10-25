@@ -5,11 +5,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameField extends JPanel implements ActionListener{
-    private final int SIZE = 320;
+    private static Logger logger = Logger.getLogger("gamefield");
+    private final int SIZE = 340;
     private final int DOT_SIZE = 16;
     private final int ALL_DOTS = 400;
+    private final int WIN_PERCENT = 50;
     private Image dot;
     private Image apple;
     private int appleX;
@@ -23,6 +27,7 @@ public class GameField extends JPanel implements ActionListener{
     private boolean up = false;
     private boolean down = false;
     private boolean inGame = true;
+    private boolean isWin = false;
 
 
     public GameField(){
@@ -46,8 +51,24 @@ public class GameField extends JPanel implements ActionListener{
     }
 
     public void createApple(){
-        appleX = new Random().nextInt(20)*DOT_SIZE;
-        appleY = new Random().nextInt(20)*DOT_SIZE;
+        while (true){
+            appleX = new Random().nextInt(20)*DOT_SIZE;
+            appleY = new Random().nextInt(20)*DOT_SIZE;
+            boolean inSnake = false;
+            for (int i = 0; i < dots; i++) {
+                if(appleX == x[i] && appleY == y[i]){
+                    inSnake = true;
+                    logger.log(Level.INFO,"apple in snake");
+                    break;
+                }
+            }
+            if (!inSnake){
+                break;
+            }
+
+        }
+
+
     }
 
     public void loadImages(){
@@ -60,7 +81,14 @@ public class GameField extends JPanel implements ActionListener{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(inGame){
+        if(isWin){
+            String str = "You won!";
+            //Font f = new Font("Arial",14,Font.BOLD);
+            g.setColor(Color.white);
+            // g.setFont(f);
+            g.drawString(str,125,SIZE/2);
+        }
+        else if(inGame){
             g.drawImage(apple,appleX,appleY,this);
             for (int i = 0; i < dots; i++) {
                 g.drawImage(dot,x[i],y[i],this);
@@ -72,28 +100,46 @@ public class GameField extends JPanel implements ActionListener{
             // g.setFont(f);
             g.drawString(str,125,SIZE/2);
         }
+
     }
 
-    public void move(){
+    public void move() {
         for (int i = dots; i > 0; i--) {
-            x[i] = x[i-1];
-            y[i] = y[i-1];
+            x[i] = x[i - 1];
+            y[i] = y[i - 1];
         }
-        if(left){
+        if (left) {
             x[0] -= DOT_SIZE;
+            if (x[0] < 0) {
+                x[0] = 20 * DOT_SIZE;
+            }
         }
-        if(right){
+        if (right) {
             x[0] += DOT_SIZE;
-        } if(up){
+            if (x[0] > SIZE) {
+                x[0] = 0;
+            }
+        }
+        if (up) {
             y[0] -= DOT_SIZE;
-        } if(down){
+            if (y[0] < 0) {
+                y[0] = 20 * DOT_SIZE;
+            }
+        }
+        if (down) {
             y[0] += DOT_SIZE;
+            if (y[0] > SIZE) {
+                y[0] = 0;
+            }
         }
     }
 
     public void checkApple(){
         if(x[0] == appleX && y[0] == appleY){
             dots++;
+            if(dots>ALL_DOTS*WIN_PERCENT/100){
+                isWin = true;
+            }
             createApple();
         }
     }
@@ -105,18 +151,18 @@ public class GameField extends JPanel implements ActionListener{
             }
         }
 
-        if(x[0]>SIZE){
-            inGame = false;
-        }
-        if(x[0]<0){
-            inGame = false;
-        }
-        if(y[0]>SIZE){
-            inGame = false;
-        }
-        if(y[0]<0){
-            inGame = false;
-        }
+//        if(x[0]>SIZE){
+//            inGame = false;
+//        }
+//        if(x[0]<0){
+//            inGame = false;
+//        }
+//        if(y[0]>SIZE){
+//            inGame = false;
+//        }
+//        if(y[0]<0){
+//            inGame = false;
+//        }
     }
 
     @Override
