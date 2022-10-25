@@ -36,7 +36,6 @@ public class GameField extends JPanel implements ActionListener{
         initGame();
         addKeyListener(new FieldKeyListener());
         setFocusable(true);
-
     }
 
     public void initGame(){
@@ -45,6 +44,7 @@ public class GameField extends JPanel implements ActionListener{
             x[i] = 48 - i*DOT_SIZE;
             y[i] = 48;
         }
+
         timer = new Timer(250,this);
         timer.start();
         createApple();
@@ -68,7 +68,6 @@ public class GameField extends JPanel implements ActionListener{
 
         }
 
-
     }
 
     public void loadImages(){
@@ -83,9 +82,7 @@ public class GameField extends JPanel implements ActionListener{
         super.paintComponent(g);
         if(isWin){
             String str = "You won!";
-            //Font f = new Font("Arial",14,Font.BOLD);
             g.setColor(Color.white);
-            // g.setFont(f);
             g.drawString(str,125,SIZE/2);
         }
         else if(inGame){
@@ -95,9 +92,7 @@ public class GameField extends JPanel implements ActionListener{
             }
         } else{
             String str = "Game Over";
-            //Font f = new Font("Arial",14,Font.BOLD);
             g.setColor(Color.white);
-            // g.setFont(f);
             g.drawString(str,125,SIZE/2);
         }
 
@@ -151,18 +146,17 @@ public class GameField extends JPanel implements ActionListener{
             }
         }
 
-//        if(x[0]>SIZE){
-//            inGame = false;
-//        }
-//        if(x[0]<0){
-//            inGame = false;
-//        }
-//        if(y[0]>SIZE){
-//            inGame = false;
-//        }
-//        if(y[0]<0){
-//            inGame = false;
-//        }
+/*       if(x[0]>SIZE){
+            inGame = false;      }
+       if(x[0]<0){
+           inGame = false;
+      }
+      if(y[0]>SIZE){
+           inGame = false;
+      }
+      if(y[0]<0){
+         inGame = false;
+       }*/
     }
 
     @Override
@@ -204,6 +198,5 @@ public class GameField extends JPanel implements ActionListener{
             }
         }
     }
-
 
 }
